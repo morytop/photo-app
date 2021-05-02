@@ -22,13 +22,16 @@ function uploadImage(e) {
     reader.readAsDataURL(e.target.files[0]);
 }
 
-function greyscale() {
+const imageLoader = document.getElementById("uploader");
+uploader.addEventListener("change", uploadImage);
+const greyscale = () => {
     const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imageData.data
-    for (let i = 0; i < data.lenght; i += 4) {
-        data[i];
-        data[i + 1];
-        data[i + 2];
+    const data = imageData.data;
+    for (let i = 0; i < data.length; i += 4) {
+        const grey = data[i] * 0.21 + data[i + 1] * 0.71 + data[i + 2] * 0.07;
+        data[i] = grey;
+        data[i + 1] = grey;
+        data[i + 2] = grey;
     }
     context.putImageData(imageData, 0, 0);
 };
@@ -56,7 +59,7 @@ const invert = () => {
     context.putImageData(imageData, 0, 0);
 };
 
-const imageLoader = document.getElementById('uploader');
+
 imageLoader.addEventListener("change", uploadImage);
 document.querySelectorAll("button")[0].addEventListener("click", greyscale);
 document.querySelectorAll("button")[1].addEventListener("click", sepia);
